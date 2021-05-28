@@ -1,0 +1,20 @@
+#results .result-row {
+    padding: 1rem;
+}
+
+#results .result-row:nth-child(2n) {
+    background-color: var(--bs-light);
+}
+
+#results em {
+    color: var(--bs-primary);
+    font-style: normal;
+}
+
+.dropdown .field-select-item:not(.selected) .bi {
+    visibility: hidden;
+}
+
+#results-table td {
+    width: 50%;
+}

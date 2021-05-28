@@ -1,0 +1,103 @@
+{% extends "main.html" %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/search' + infix + '.css') }}">
+
+<script defer src="{{ url_for('static', filename='js/search-corset' + infix + '.js') }}"></script>
+{% endblock %}
+
+{% block main_content %}
+<div class="row">
+    <div class="col-6 col-sm-4">
+        <a href="{{ url_for('dashboard.dashboard_view') }}" class="text-decoration-none small">
+            <i class="bi bi-arrow-left"></i> Close preview
+        </a>
+        <div class="h5 mt-3">Preview of {{ query_request.name }}</div>
+    </div>
+    <div class="col-6 col-sm-4 offset-sm-2 text-end">
+        <a href="{{ url_for('query.query_download', query_request_id=query_request_id) }}"
+           class="text-decoration-none small">
+            <i class="bi bi-file-earmark-arrow-down"></i> Download
+        </a>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12 col-sm-10">
+        <form id="searchForm" action="{{ url_for('search.search_corset_post') }}" method="post">
+            <input type="hidden" name="source_lang" id="source_lang" value="{{ source_lang.lang_id }}" />
+            <input type="hidden" name="field" id="field" value="{{ field }}" />
+            <input type="hidden" name="query_request_id" id="query_request_id" value="{{ query_request_id }}" />
+            <input type="hidden" name="corset_id" id="corset_id" value="{{ corset_id }}" />
+
+            <div class="mb-3">
+                <label for="queryText" class="form-label" id="queryTextLabel">Filter corset preview</label>
+
+                <div class="input-group">
+                    <input required type="text" class="form-control" id="queryText" name="queryText"
+                           aria-describedby="queryTextLabel" placeholder="Type some keywords..."
+                           autocomplete="off" value="{{ query if query else '' }}" autofocus />
+                    <span class="input-group-text d-none d-sm-block" aria-label="Source language"
+                          title="Source language">{{ source_lang.name }}</span>
+                    <select disabled class="form-select" id="target_lang" name="target_lang" style="flex: 0 1 125px;">
+                        <option value="{{ target_lang.lang_id }}" data-code="{{ target_lang.code }}"
+                                selected >{{ target_lang.name }}</option>
+                    </select>
+                    <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i></button>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-12 col-sm-3 mt-3 mt-sm-0">
+                        <label class="form-label" for="fieldSelect" id="fieldSelectLabel">Search field</label>
+
+                        <div class="input-group" aria-describedby="fieldSelectLabel">
+                            <input type="radio" class="btn-check" name="field_radio" id="field_src" autocomplete="off"
+                                data-field="src" {% if field == 'src' %} checked {% endif %} />
+                            <label class="btn btn-sm btn-outline-primary rounded-start flex-grow-1 flex-shrink-0" for="field_src">Source</label>
+
+                            <input type="radio" class="btn-check" name="field_radio" id="field_trg" autocomplete="off"
+                                data-field="trg" {% if field == 'trg' %} checked {% endif %} />
+                            <label class="btn btn-sm btn-outline-primary flex-grow-1 flex-shrink-0" for="field_trg">Target</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="col-12 col-sm-10 mt-3">
+        <div class="d-none" id="results">
+            <div class="search-title search-title-results d-none">
+                <div class="h5">Results</div>
+                <div class="h6">Sample over total of <span id="results-occurrences"></span></div>
+            </div>
+
+            <div class="h5 search-title search-title-preview d-none">Preview</div>
+
+            <div id="results-container" class="d-none">
+                <div class="table-responsive">
+                    <table class="table table-striped" id="results-table">
+                        <thead>
+                            <th>Source</th>
+                            <th>Target</th>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="error-row" class="row align-items-center d-none">
+                <div class="col-12 col-sm-4">
+                    <img alt="No data available" src="{{ url_for('static', filename='img/no-data-animate.svg') }}" />
+                </div>
+
+                <div class="col-12 col-sm-4">
+                    <div class="display-6">
+                        We could not find any results for your query
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

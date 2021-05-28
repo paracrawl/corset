@@ -1,0 +1,65 @@
+version: '3.1'
+
+services:
+  dp-front:
+    container_name: dp-front
+    image: dp-front
+    build:
+      context: .
+      dockerfile: Dockerfile-front
+    ports:
+      - 5000:5000
+    networks:
+      - dataportal
+    environment:
+      - DATABASE_URL=postgresql://dpdb:YOURPASSWORD@dp-postgres:5432/dpdb
+      - API_URL=http://dp-back:5000
+      - DEBUG=0
+      - SECRET_KEY=development key
+    volumes:
+      - ./front/data/:/opt/dp/front/data
+      - ./back/data:/opt/dp/back/data:rw
+  dp-solr:
+    image: solr:latest
+    container_name: dp-solr
+    environment:
+      SOLR_JAVA_MEM: "-Xms8g -Xmx8g"
+    volumes:
+      - /mnt/solr-data/solr:/var/solr:rw
+    networks:
+      - dataportal
+  dp-postgres:
+    container_name: dp-postgres
+    image: postgres:latest
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+      - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d:ro
+    environment:
+      - POSTGRES_DB=dpdb
+      - POSTGRES_USER=dpdb
+      - POSTGRES_PASSWORD=YOURPASSWORD
+    networks:
+      - dataportal
+  dp-back:
+    container_name: dp-back
+    image: dp-back
+    build:
+      context: .
+      dockerfile: Dockerfile-back
+    networks:
+      - dataportal
+    ports:
+      - 8090:5000
+    volumes:
+      - ./back/data:/opt/dp/back/data:rw
+    environment:
+      - DATABASE_URL=
+      - SOLR_URL=http://dp-solr:8983/solr
+      - SOLR_USR=
+      - SOLR_PWD=
+      - DEBUG=0
+      - CORS_ORIGINS=http://localhost:5000
+      - SECRET_KEY=development key
+networks:
+  dataportal:
+

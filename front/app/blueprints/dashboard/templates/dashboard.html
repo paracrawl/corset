@@ -1,0 +1,67 @@
+{% extends "main.html" %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/job-table' + infix + '.css') }}">
+{% endblock %}
+
+{% block resources %}
+<script defer src="{{ url_for('static', filename='js/dashboard' + infix + '.js') }}"></script>
+{% endblock %}
+
+{% block main_content %}
+<input type="hidden" id="user_id" name="user_id" value="{{ current_user.id }}" />
+<div class="row">
+    <div class="col-12 col-sm-10">
+        <div class="d-flex justify-content-between align-items-center">
+            <span class="h5">Your corsets</span>
+
+            <button id="your-corsets-reload" class="btn btn-sm btn-outline-secondary"><i class="bi bi-arrow-repeat"></i> Reload</button>
+        </div>
+
+        {% with table_id = "queue-table" %}
+            {% include "queue-table.html" %}
+        {% endwith %}
+    </div>
+
+    <div class="col-12 col-sm-10 mt-4">
+        <div class="h5">Shared corsets</div>
+
+        {% with table_id = "public-table" %}
+            {% include "queue-table.html" %}
+        {% endwith %}
+    </div>
+</div>
+
+{% include "queue-table-templates.html" %}
+
+<template id="queue-table-actions-template">
+    <div class="dropdown" id="shareMenu">
+        <button class="btn py-0 px-2" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-three-dots-vertical"></i>
+        </button>
+        <ul class="dropdown-menu" aria-label="Actions">
+            <li class="share-action d-none">
+                <a class="dropdown-item" href="#">
+                    <i class="bi bi-share-fill me-2"></i> Share
+                </a>
+            </li>
+            <li class="unshare-action d-none">
+                <a class="dropdown-item" href="#">
+                    <i class="bi bi-x-circle-fill me-2"></i> Stop sharing
+                </a>
+            </li>
+            <li class="preview-action">
+                <a href="#" class="preview-link dropdown-item" title="Preview">
+                    <i class="bi bi-eye-fill me-2"></i> Preview
+                </a>
+            </li>
+            <li class="remove-action d-none">
+                <a href="#" class="remove-link dropdown-item text-danger" title="Remove">
+                    <i class="bi bi-trash-fill me-2"></i> Remove
+                </a>
+            </li>
+        </ul>
+    </div>
+</template>
+
+{% endblock %}

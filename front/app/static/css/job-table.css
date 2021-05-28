@@ -1,0 +1,28 @@
+.dot {
+    display: flex;
+    align-items: center;
+}
+.dot::before {
+    content: "";
+    display: block;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    margin-right: 0.5rem;
+}
+
+.dot.dot-warning::before {
+    background-color: var(--bs-warning);
+}
+
+.dot.dot-success::before {
+    background-color: var(--bs-success);
+}
+
+.dot.dot-danger::before {
+    background-color: var(--bs-danger);
+}
+
+#queue-table tr td:last-child, #public-table tr td:last-child {
+    width: 5%;
+}

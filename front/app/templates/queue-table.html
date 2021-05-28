@@ -1,0 +1,24 @@
+<div class="table-responsive">
+    <table class="table table-striped align-middle" id="{{ table_id }}">
+        <thead>
+            <tr>
+                <th>Status</th>
+                {% if queue_table_admin %}
+                <th>User</th>
+                {% endif %}
+                <th>Name</th>
+                <th>Languages</th>
+                <th>Size</th>
+                <th>Topic</th>
+                <th>Added</th>
+                <th>Finished</th>
+                {% if queue_table_admin %}
+                <th>Downloads</th>
+                {% endif %}
+                <th><span class="visually-hidden">Actions</span></th>
+            </tr>
+        </thead>
+        <tbody id="queue-table-row">
+        </tbody>
+    </table>
+</div>

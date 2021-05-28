@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<schema name="basecorpus" version="2.0">
+
+  <field name="_version_" type="tlong" indexed="false" stored="false"/>
+  <field name="id" type="string" indexed="true" stored="true" required="true" multiValued="false" />
+
+  <field name="src_url" type="string" indexed="false" stored="true"/>
+  <field name="trg_url" type="string" indexed="false" stored="true"/>
+  <field name="src" type="text" indexed="true" stored="true" />
+  <field name="trg" type="text" indexed="true" stored="true" />
+  <field name="tags" type="string" indexed="true" stored="true" multiValued="true"/>
+  <field name="custom_score" type="tdouble" indexed="false" stored="true" />
+
+  <!-- primary key -->
+  <uniqueKey>id</uniqueKey>
+
+
+  <fieldType name="tlong" class="solr.TrieLongField" docValues="true"/>
+  <fieldType name="string" class="solr.StrField" sortMissingLast="true" />
+  <fieldType name="tdouble" class="solr.TrieDoubleField" docValues="true" />
+  <fieldType name="text" class="solr.TextField">
+    <analyzer>
+      <charFilter class="solr.MappingCharFilterFactory" mapping="light-mapping-FoldToASCII.txt"/>
+      <tokenizer class="solr.StandardTokenizerFactory"/>
+      <filter class="solr.LowerCaseFilterFactory"/>
+    </analyzer>
+  </fieldType>
+  
+  <similarity class="solr.ClassicSimilarityFactory"/>
+</schema>

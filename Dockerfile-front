@@ -1,0 +1,29 @@
+FROM python:latest
+
+RUN echo "Europe/Madrid" > /etc/timezone
+ENV LC_ALL=C.UTF-8
+ENV LANG=C.UTF-8
+
+ENV DEBIAN_FRONTEND noninteractive
+RUN apt-get update -q --fix-missing && \
+    apt-get -y upgrade && \
+    apt-get install -y python3-dev
+
+RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - && \
+    apt-get install -y nodejs && curl -L https://npmjs.org/install.sh | sh
+
+RUN mkdir /opt/dp
+RUN mkdir -p /opt/dp/data/logs
+
+COPY . /opt/dp
+
+RUN chmod +x /opt/dp/front/scripts/docker-install.sh
+RUN chmod +x /opt/dp/front/scripts/minify.sh
+RUN chmod +x /opt/dp/front/scripts/docker-entrypoint.sh
+
+RUN /opt/dp/front/scripts/docker-install.sh
+RUN /opt/dp/front/scripts/minify.sh
+
+EXPOSE 5000
+
+CMD /opt/dp/front/scripts/docker-entrypoint.sh
