@@ -25,8 +25,8 @@ Here are some highlights of what you will find in Corset:
 
 
 To know more, see:
-* User guide
-* Technical documentation
+* [User guide](https://github.com/paracrawl/corset/wiki/User-guide)
+* [Technical documentation](https://github.com/paracrawl/corset/wiki/Technical-Documentation)
 
 ___
 
