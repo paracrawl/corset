@@ -28,6 +28,9 @@ class Corsets(Resource):
             if query_request and (query_request.owner.user_id == current_user.id or
                                   (query_request.custom_corpus and query_request.custom_corpus.is_private is False)
                                   or current_user.is_admin):
+
+                query_request.owner = {'user_id': query_request.owner.user_id}
+
                 if args['preview']:
                     response = {}
 
@@ -63,7 +66,7 @@ class Corsets(Resource):
                 query_requests = query_request_bo.get_public_custom_corpora_requests(sort_dir="desc",
                                                                                      sort_field="creation_date")
             else:
-                query_requests = query_request_bo.get_query_requests()
+                query_requests = query_request_bo.get_query_requests() if current_user.is_admin else []
 
             if query_requests:
                 query_requests = [request for request in query_requests
