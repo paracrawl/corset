@@ -183,10 +183,10 @@ INSERT INTO dpdb.tags (tag) VALUES
     ('Talks'),
     ('Other');
 
-#INSERT INTO dpdb.basecorpora (name, description, source_lang, target_lang, sentences, size_mb, solr_collection, is_highlight) VALUES
-#    ('Paracrawl EN-ES', 'English-Spanish ParaCrawl Corpus release v7.1', 1, 8, 23944238, 3075, 'paracrawl-en-es', 't'),
-#    ('Paracrawl EN-PT', 'English-Portuguese ParaCrawl Corpus release v7.1', 1, 27, 10908656, 1384, 'paracrawl-en-pt', 't'),
-#    ('Paracrawl EN-DE', 'English-German ParaCrawl Corpus release v7.1', 1, 6, 28198207, 3874, 'paracrawl-en-de', 't'),    
-#    ('Paracrawl EN-FR', 'English-French ParaCrawl Corpus release v7.1', 1, 12, 31947091, 4268, 'paracrawl-en-fr', 't'),    
-#    ('Paracrawl EN-NL', 'English-Dutch ParaCrawl Corpus release v7.1', 1, 23, 9321114, 1168, 'paracrawl-en-nl', 't'),    
-#    ('Paracrawl EN-IT', 'English-Italian ParaCrawl Corpus release v7.1', 1, 18, 13622365, 1745, 'paracrawl-en-it', 't');
+--INSERT INTO dpdb.basecorpora (name, description, source_lang, target_lang, sentences, size_mb, solr_collection, is_highlight) VALUES
+--    ('Paracrawl EN-ES', 'English-Spanish ParaCrawl Corpus release v7.1', 1, 8, 23944238, 3075, 'paracrawl-en-es', 't'),
+--    ('Paracrawl EN-PT', 'English-Portuguese ParaCrawl Corpus release v7.1', 1, 27, 10908656, 1384, 'paracrawl-en-pt', 't'),
+--    ('Paracrawl EN-DE', 'English-German ParaCrawl Corpus release v7.1', 1, 6, 28198207, 3874, 'paracrawl-en-de', 't'),
+--    ('Paracrawl EN-FR', 'English-French ParaCrawl Corpus release v7.1', 1, 12, 31947091, 4268, 'paracrawl-en-fr', 't'),
+--    ('Paracrawl EN-NL', 'English-Dutch ParaCrawl Corpus release v7.1', 1, 23, 9321114, 1168, 'paracrawl-en-nl', 't'),
+--    ('Paracrawl EN-IT', 'English-Italian ParaCrawl Corpus release v7.1', 1, 18, 13622365, 1745, 'paracrawl-en-it', 't');
