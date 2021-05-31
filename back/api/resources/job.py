@@ -1,3 +1,4 @@
+from back.api.resources.filter_request import filter_request
 from back.bo.query_request_bo import QueryRequestBO
 from back.dto.query_request import QueryRequest
 from flask_login import login_required, current_user
@@ -33,6 +34,9 @@ class Job(Resource):
             if pending_requests:
                 pending_requests = [request for request in pending_requests
                                     if request.custom_corpus is None or request.custom_corpus.is_active is True]
+
+                for request in pending_requests:
+                    filter_request(request)
 
                 return QueryRequest.schema().dump(pending_requests, many=True), 200
             else:

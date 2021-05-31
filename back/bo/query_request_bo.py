@@ -9,8 +9,6 @@ from back.dto.query_request import QueryRequest
 from back.models import QueryRequests, Users, BaseCorpora, QueryCorpora, CustomCorpora, Statuses
 from back.config import Config
 
-from datetime import *
-
 from back.utils import *
 
 
@@ -211,14 +209,12 @@ def build_query_requests_array(resp):
         custom_corpus=None
         if request.custom_corpus != None:
             cc_bo = CustomCorpusBO()
-            custom_corpus = cc_bo.get_custom_corpus(request.custom_corpus)        
-        request.owner=user
+            custom_corpus = cc_bo.get_custom_corpus(request.custom_corpus)
+
+        request.owner = user
         request.base_corpus=base_corpus
         request.query_corpus=query_corpus
-
         if request.query_corpus:
-            request.query_corpus.location = None
-
             langs_bo = LangsBO()
             request.query_corpus.source_lang = langs_bo.get_lang(request.query_corpus.source_lang)
             request.query_corpus.target_lang = langs_bo.get_lang(request.query_corpus.target_lang)
