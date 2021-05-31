@@ -36,7 +36,7 @@ class Job(Resource):
                                     if request.custom_corpus is None or request.custom_corpus.is_active is True]
 
                 for request in pending_requests:
-                    filter_request(request)
+                    filter_request(request, is_admin=current_user.is_admin)
 
                 return QueryRequest.schema().dump(pending_requests, many=True), 200
             else:
