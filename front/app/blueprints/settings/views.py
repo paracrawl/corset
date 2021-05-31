@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, url_for, redirect
+from flask import Blueprint, render_template, request, url_for, redirect, escape
 from flask_login import login_required, current_user
 
 from back.bo.search_request_bo import SearchRequestBO
@@ -23,13 +23,9 @@ def settings_view():
 def settings_view_post():
     user = User.query.filter_by(id=user_utils.get_uid()).first()
     name = request.form.get('nameText')
-    email = request.form.get('emailText')
 
     if name:
-        user.name = name
-
-    if email:
-        user.email = email
+        user.name = escape(name)
 
     db.session.commit()
 
