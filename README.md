@@ -1,5 +1,6 @@
 # Corset
 
+![Logo](https://github.com/paracrawl/corset/raw/master/images/corset_logo.png)
 
 ![License](https://img.shields.io/badge/License-GPLv3-blue.svg)
 
