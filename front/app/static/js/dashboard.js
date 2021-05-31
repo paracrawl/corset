@@ -1,8 +1,6 @@
 let tableData = [];
 
 document.addEventListener('DOMContentLoaded', () => {
-    const userId = document.getElementById('user_id').value;
-
     const getHTML = (template) => {
         const ghost = document.createElement('div');
         ghost.appendChild(template);
