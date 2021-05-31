@@ -72,7 +72,8 @@ def search_corset(query_request_id, lang=None, query=None):
     query_request = query_request_bo.get_query_request(query_request_id)
 
     if query_request and query_request.custom_corpus:
-        if query_request.owner.user_id == current_user.id or query_request.custom_corpus.is_private is False:
+        if query_request.owner.user_id == current_user.id or query_request.custom_corpus.is_private is False\
+                or current_user.is_admin:
             source_lang = query_request.custom_corpus.source_lang
             target_lang = query_request.custom_corpus.target_lang
             field = 'trg' if query_request.custom_corpus.target_lang.code == lang else 'src'
@@ -108,11 +109,17 @@ def search_corset_post():
 @search_blueprint.route('/history/remove/<id>')
 @utils.condec(login_required, user_login_enabled())
 def history_remove(id):
+    id = int(id)
+
     search_request_bo = SearchRequestBO()
 
     if id == 'all':
         search_request_bo.clear_user_search_history(current_user.id)
     else:
-        search_request_bo.remove_search_history_entry(id)
+        user_search_requests = search_request_bo.get_user_search_requests(user_id=current_user.id)
+        user_search_requests_ids = [search_request.search_id for search_request in user_search_requests]
+
+        if id in user_search_requests_ids:
+            search_request_bo.remove_search_history_entry(id)
 
     return redirect(request.referrer)
