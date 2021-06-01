@@ -16,7 +16,8 @@ admin_blueprint = Blueprint('admin', __name__, template_folder='templates')
 @admin_blueprint.route('/')
 @utils.condec(login_required, user_utils.user_login_enabled())
 def admin_view():
-    if not current_user.is_admin: redirect(url_for('search.search_view'))
+    if not current_user.is_admin:
+        return redirect(url_for('search.search_view'))
 
     factor = 1073741824
     vmem = psutil.virtual_memory()
@@ -37,23 +38,26 @@ def admin_view():
 @admin_blueprint.route('/add/base', methods=["POST"])
 @utils.condec(login_required, user_utils.user_login_enabled())
 def admin_add_base_corpora():
-    name = request.form.get('corpusName')
-    description = request.form.get('descriptionText')
-    source_lang = int(request.form.get('sourceLang'))
-    target_lang = int(request.form.get('targetLang'))
-    solr_collection = request.form.get('solrCollection')
+    if current_user.is_admin:
+        name = request.form.get('corpusName')
+        description = request.form.get('descriptionText')
+        source_lang = int(request.form.get('sourceLang'))
+        target_lang = int(request.form.get('targetLang'))
+        solr_collection = request.form.get('solrCollection')
 
-    # We do not trust user input
-    name = flask.escape(name)
-    description = flask.escape(description)
-    solr_collection = flask.escape(solr_collection)
+        # We do not trust user input
+        name = flask.escape(name)
+        description = flask.escape(description)
+        solr_collection = flask.escape(solr_collection)
 
-    # Base Corpus object
-    base_corpus: BaseCorpus = BaseCorpus(name=name, description=description,
-                                         source_lang=source_lang, target_lang=target_lang,
-                                         solr_collection=solr_collection, is_active=True,
-                                         is_highlight=False, corpus_id=None, sentences=0, size=0)
+        # Base Corpus object
+        base_corpus: BaseCorpus = BaseCorpus(name=name, description=description,
+                                             source_lang=source_lang, target_lang=target_lang,
+                                             solr_collection=solr_collection, is_active=True,
+                                             is_highlight=False, corpus_id=None, sentences=0, size=0)
 
-    base_corpus_bo = BaseCorpusBO()
-    base_corpus_bo.add_base_corpus(base_corpus)
-    return {'result': 200}
+        base_corpus_bo = BaseCorpusBO()
+        base_corpus_bo.add_base_corpus(base_corpus)
+        return {'result': 200}
+    else:
+        return redirect(url_for('search.search_view'))
