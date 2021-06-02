@@ -49,11 +49,13 @@ def search_view(corpus_collection=None, lang=None, query=''):
 def search_post():
     source_lang_id = int(request.form.get('source_lang'))
     target_lang_id = int(request.form.get('target_lang'))
+    base_corpus_id = int(request.form.get('baseCorpusSelect'))
+
     field = request.form.get('field')
     query = escape(request.form.get('queryText'))
 
     base_corpus_bo = BaseCorpusBO()
-    base_corpus = base_corpus_bo.get_base_corpora_by_pair(source_lang_id, target_lang_id)[0]
+    base_corpus = base_corpus_bo.get_base_corpus(base_corpus_id)
 
     langs_bo = LangsBO()
     source_lang = langs_bo.get_lang(source_lang_id)
