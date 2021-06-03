@@ -148,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     document.getElementById('baseCorpusSelect').addEventListener('change', () => {
-       const baseCorpus = parseInt(document.getElementById('base_corpus').value);
+       const baseCorpus = parseInt(document.getElementById('baseCorpusSelect').value);
        if (!(query)) {
            showBaseCorpusPreview(baseCorpus);
        }
