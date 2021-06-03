@@ -43,6 +43,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 document.getElementById('baseCorpusSelect').appendChild(option);
             }
+
+            document.getElementById('baseCorpusSelect').dispatchEvent(new Event('change'))
         }).error((code, data) => {
             console.log(code, data);
         }).after(() => {
