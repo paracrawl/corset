@@ -146,4 +146,11 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         showBaseCorpusPreview(baseCorpus);
     }
+
+    document.getElementById('baseCorpusSelect').addEventListener('change', () => {
+       const baseCorpus = parseInt(document.getElementById('base_corpus').value);
+       if (!(query)) {
+           showBaseCorpusPreview(baseCorpus);
+       }
+    });
 });
