@@ -1,0 +1,15 @@
+{% extends "main.html" %}
+
+{% block main_content %}
+<form action="" method="post">
+    <h1 class="h3">Delete {{ query_request.name }}</h1>
+
+    <p>
+        This action <strong>cannot be undone</strong>. Are you sure you want to proceed?
+    </p>
+    <p>
+        <input type="submit" class="btn btn-danger" value="Yes, permanently delete corset" />
+        <a href="{{ url_for('search.search_view') }}" class="btn btn-secondary">No, keep the corset</a>
+    </p>
+</form>
+{% endblock %}

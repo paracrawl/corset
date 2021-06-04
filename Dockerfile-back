@@ -1,0 +1,30 @@
+FROM python:latest
+
+RUN echo "Europe/Madrid" > /etc/timezone
+ENV LC_ALL=C.UTF-8
+ENV LANG=C.UTF-8
+
+ENV DEBIAN_FRONTEND noninteractive
+RUN apt-get update -q --fix-missing && \
+    apt-get -y upgrade && \
+    apt-get -y install python3-dev \
+                        redis \
+                        zip
+
+RUN mkdir /opt/dp
+RUN mkdir -p /opt/dp/back/data/api/logs
+RUN mkdir -p /opt/dp/back/data/logs
+RUN mkdir -p /opt/dp/back/data/redis-data
+RUN mkdir -p /opt/dp/back/data/corsets
+RUN mkdir -p /opt/dp/back/api/data/uploads
+
+COPY . /opt/dp
+
+RUN chmod +x /opt/dp/back/scripts/docker-install.sh
+RUN chmod +x /opt/dp/back/scripts/docker-entrypoint.sh
+
+RUN /opt/dp/back/scripts/docker-install.sh
+
+EXPOSE 5000
+
+CMD /opt/dp/back/scripts/docker-entrypoint.sh

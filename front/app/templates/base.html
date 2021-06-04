@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% if title %}
+        <title>{{ title }} — Paracrawl Data Portal</title>
+    {% else %}
+        <title>Paracrawl Data Portal</title>
+    {% endif %}
+
+    <meta charset="utf-8" />
+
+    {% include "head.html" %}
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}" />
+
+    {% block head %}{% endblock %}
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-md-3 bg-light nav-col">
+                <div class="d-flex align-items-center my-3">
+                    <button class="btn btn-light mr-2 d-md-none" data-toggle="hamburger" data-target="#navbar">
+                        <i class="bi bi-list"></i>
+                    </button>
+
+                    <div class="d-flex align-items-center justify-content-between w-100">
+                        <a class="h4 mb-0 text-dark" href="{{ url_for('index') }}">
+                            <img alt="Corsets logo" src="{{ url_for('static', filename='img/logo.svg') }}" class="img-fluid">
+                        </a>
+                    </div>
+                </div>
+
+                <div id="navbar" class="hamburger pb-3">
+                    <div class="hamburger-overlay"></div>
+                    <div class="hamburger-menu">
+                        <div class="d-flex align-items-center d-md-none">
+                            <button class="btn btn-light mr-2" data-toggle="hamburger" data-target="#navbar">
+                                <i class="bi bi-list"></i>
+                            </button>
+
+                            <a class="h4 mb-0 text-dark" href="{{ url_for('index') }}">
+                                <img alt="Corsets logo" src="{{ url_for('static', filename='img/logo.svg') }}" class="img-fluid">
+                            </a>
+                        </div>
+
+                        <hr class="my-4" />
+
+                        <div class="user-panel">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex align-items-center">
+                                    <img alt="User avatar" src="{{ current_user.avatar }}" class="user-avatar-img me-2" />
+                                    <span class="h5 mb-0">{{ current_user.name }}</span>
+                                </div>
+
+                                <div class="d-flex">
+                                    <a href="{{ url_for('settings.settings_view') }}" class="btn btn-link btn-lg text-reset px-1" title="Settings" aria-label="Settings">
+                                        <i class="bi bi-gear-fill"></i>
+                                    </a>
+                                    <a href="{{ url_for('auth.logout') }}" class="btn btn-link btn-lg text-danger px-1" title="Log out" aria-label="Log out">
+                                        <i class="bi bi-power"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="my-4" />
+
+                        <div class="user-queue">
+                            <div class="heading">Your last corsets</div>
+
+                            <div class="mt-2">
+                                <div id="queue-container"></div>
+                                <div id="queue-error" class="d-none">
+                                    Nothing in your corsets
+                                </div>
+
+                                <template id="queue-entry-template">
+                                    <div class="queue-container">
+                                        <a href="#" class="queue-entry d-flex align-items-center mb-1 text-reset text-decoration-none">
+                                            <span class="badge badge-status badge-status-pending border border-2 border-warning bg-warning d-none">Working</span>
+                                            <span class="badge badge-status badge-status-failure border border-2 border-danger bg-danger d-none">Failure</span>
+                                            <span class="badge badge-status badge-status-success border border-2 border-success bg-success d-none">Ready</span>
+
+                                            <span class="queue-topic badge bg-light text-dark border border-dark border-2 ms-1"></span>
+
+                                            <div class="ms-2">
+                                                <span class="corset-name"></span> · <span class="corset-base-corpus"></span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+
+                        <div class="user-history mt-4">
+                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                <div class="heading">History</div>
+
+                                <div class="dropdown">
+                                    <button class="btn px-0" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="bi bi-three-dots-vertical"></i>
+                                    </button>
+
+                                    <ul class="dropdown-menu" aria-label="More options">
+                                        <li>
+                                            <a class="dropdown-item"
+                                               href="{{ url_for('settings.settings_view') }}">
+                                                Manage history
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item"
+                                               href="{{ url_for('search.history_remove', id='all') }}">
+                                                Clear all
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div id="history-container"></div>
+                            <div id="history-error" class="d-none">
+                                Nothing in your history
+                            </div>
+
+                            <template id="history-template">
+                                <div class="history-entry mb-2">
+                                    <a href="#" class="history-link text-reset text-decoration-none">
+                                        <span class="history-lang badge border border-1 border-secondary
+                                        text-secondary me-1" style="width: 32px;"></span>
+
+                                        <span>
+                                            <span class="history-name"></span>
+                                            · <span class="corpus-name"></span>
+                                        </span>
+                                    </a>
+
+                                    <a href="#" class="history-delete text-danger" title="Remove entry">
+                                        <i class="bi bi-x-circle"></i>
+                                    </a>
+                                </div>
+                            </template>
+                        </div>
+
+                        <div class="highlights mt-4">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div class="heading">Top corsets</div>
+
+                                <!--<div class="btn-group">
+                                    <button type="button" class="btn btn-sm btn-link text-decoration-none p-1 dropdown-toggle"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                        Most used
+                                    </button>
+
+                                    <ul class="dropdown-menu">
+                                        <li><span class="dropdown-header h6">Popularity</span></li>
+                                        <li><a class="dropdown-item active" href="#">Most used</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><span class="dropdown-header h6">Topic</span></li>
+                                        {% for i, topic in enumerate(topics) %}
+                                            <li><a class="dropdown-item" href="#" data-topic="{{ i }}">{{ topic }}</a></li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>-->
+                            </div>
+                            <div class="mt-2">
+                                <div id="highlights-container"></div>
+                                <div id="highlights-error" class="d-none">
+                                    No top corsets available
+                                </div>
+
+                                <template id="highlight-template">
+                                    <div class="highlight-entry pb-2">
+                                        <a href="#" class="highlight-link text-reset text-decoration-none">
+                                            <span class="highlight-size badge bg-light text-dark border border-dark border-2"></span>
+                                            <span class="highlight-topic badge bg-light text-dark border border-dark border-2 me-1"></span>
+                                            <span class="highlight-name"></span>
+                                        </a>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+
+                        <hr class="my-4" />
+
+                        <div class="mt-4">
+                            <div class="heading">About Corset</div>
+
+                            <ul class="list-unstyled mt-2">
+                                <li>
+                                    <a href="https://github.com/paracrawl/corset/wiki/User-guide"
+                                       class="text-muted" target="_blank">
+                                        User guide
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://github.com/paracrawl/corset"
+                                       class="text-muted" target="_blank">
+                                        Corset on GitHub
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md">
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@3.0.0" type="text/javascript"></script>
+    <script defer src="{{ url_for('static', filename='js/api' + infix + '.js') }}"></script>
+    <script defer src="{{ url_for('static', filename='js/longpoll' + infix + '.js') }}"></script>
+    <script defer src="{{ url_for('static', filename='js/base' + infix + '.js') }}"></script>
+
+    {% block resources %}{% endblock %}
+</body>
+</html>

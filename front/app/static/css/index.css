@@ -1,0 +1,63 @@
+:root {
+    --icon-highligh-size: 4rem;
+    --ingredient-size: 5rem;
+}
+
+.icon-highlight {
+    background-color: var(--bs-light);
+    padding: 1rem;
+    border-radius: 50%;
+    width: var(--icon-highligh-size);
+    height: var(--icon-highligh-size);
+    font-size: calc(var(--icon-highligh-size) / 2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: calc(var(--icon-highligh-size) / 2);
+}
+
+.recipe {
+    display: flex;
+}
+
+.recipe .ingredients {
+    margin-right: 4rem;
+}
+
+.recipe .ingredients .ingredient {
+    display: flex;
+    align-items: center;
+    top: 0px;
+    left: 0px;
+    margin-bottom: 2rem;
+    text-decoration: none;
+    color: inherit;
+}
+
+.recipe .ingredients .ingredient:last-child {
+    margin-bottom: 0px;
+}
+
+.recipe .ingredient .ingredient-icon {
+    width: var(--ingredient-size);
+    height: var(--ingredient-size);
+    background-color: var(--bs-light);
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    transition: background 0.3s ease;
+}
+
+.recipe .ingredients .ingredient .ingredient-icon img {
+    width: 100%;
+}
+
+.recipe .ingredients .ingredient:hover .ingredient-icon {
+    background-color: var(--bs-dark-light);
+}
+
+.recipe .ingredients .ingredient .ingredient-info {
+    margin-left: 1rem;
+}

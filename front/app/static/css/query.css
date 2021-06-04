@@ -1,0 +1,34 @@
+.dropzone {
+    border-width: 3px;
+    border-style: dashed;
+    font-size: 125%;
+    background-color: var(--bs-light);
+}
+
+.dropzone .dz-preview .dz-progress {
+    display: none;
+}
+
+.decorated-btn {
+    position: relative;
+    text-align: center;
+}
+
+.decorated-btn::before {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: var(--bs-dark-light);
+    position: absolute;
+    left: 0px;
+    top: 50%;
+    margin-top: -1.5px;
+}
+
+.decorated-btn .btn-container {
+    display: inline;
+    position: relative;
+    padding: 0.25rem;
+    background-color: var(--bs-white);
+}

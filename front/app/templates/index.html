@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Paracrawl Data Portal</title>
+    <meta charset="utf-8" />
+
+    {% include "head.html" %}
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index' + infix + '.css') }}" />
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-4">
+                <img alt="Corsets logo" src="{{  url_for('static', filename='img/logo.svg') }}" class="img-fluid" />
+            </div>
+            <div class="col-4 offset-4 text-end">
+                <a href="https://github.com/paracrawl/corset" title="Corset on GitHub"
+                   target="_blank" class="text-reset text-decoration-none display-6">
+                    <i class="bi bi-github"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-12 col-sm-8">
+                <div class="display-4">
+                    Tailored parallel corpora to fit all sizes
+                </div>
+            </div>
+
+            <div class="col-12 mt-5">
+                <a href="{{  url_for('google.login') }}" class="btn btn-lg btn-primary">
+                    <i class="bi bi-google me-2"></i>
+                    Log in
+                </a>
+            </div>
+        </div>
+
+        <div class="row mt-7">
+            <div class="col-12 col-sm-4">
+                <div class="d-flex">
+                    <div class="icon-highlight"><i class="bi bi-search"></i></div>
+
+                    <div class="ms-3">
+                        <h2 class="h3">Millions of parallel sentences to explore</h2>
+
+                        <p>
+                            Dive into parallel corpora performing searches at the speed of light.
+                            Search in either source or target sides of corpora. Keep track of your preferred searches and their details.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-4">
+                <div class="d-flex">
+                    <div class="icon-highlight"><i class="bi bi-file-earmark-medical-fill"></i></div>
+
+                    <div class="ms-3">
+                        <h2 class="h3">Tailored corpora (corsets) from big corpora</h2>
+
+                        <p>
+                            Get smaller and custom corpora that fit your sample text.
+                            Set up the details of your corset (name, topic, languages, size)
+                            and launch your search over millions of parallel sentences.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-4">
+                 <div class="d-flex">
+                    <div class="icon-highlight"><i class="bi bi-bar-chart-steps"></i></div>
+
+                    <div class="ms-3">
+                        <h2 class="h3">Monitor and download corsets</h2>
+
+                        <p>
+                            See the status of your corsets, preview them, download them and share them!
+                            Take a look to shared corsets to see if they are already tailored to your needs.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-5">
+            <div class="col-12 col-sm-6">
+                <div class="h3">
+                    The secret ingredient is text
+                </div>
+
+                <div class="row recipe mt-4 g-0">
+                    <div class="col-12 col-sm-4 ingredients">
+                        <a class="ingredient" href="https://github.com/bitextor/bitextor" target="_blank">
+                            <div class="ingredient-icon">
+                                <img alt="" src="{{ url_for('static', filename='img/bitextor.png') }}" />
+                            </div>
+                            <div class="ingredient-info">
+                                Produced with
+                                <div class="h5">Bitextor</div>
+                            </div>
+                        </a>
+                        <a class="ingredient" href="https://github.com/bitextor/bifixer" target="_blank">
+                            <div class="ingredient-icon">
+                                <img alt="" src="{{ url_for('static', filename='img/bifixer.svg') }}" />
+                            </div>
+                            <div class="ingredient-info">
+                                Mended with
+                                <div class="h5">Bifixer</div>
+                            </div>
+                        </a>
+                        <a class="ingredient" href="https://github.com/bitextor/bicleaner" target="_blank">
+                            <div class="ingredient-icon">
+                                <img alt="" src="{{ url_for('static', filename='img/bicleaner.svg') }}" />
+                            </div>
+                            <div class="ingredient-info">
+                                Filtered with
+                                <div class="h5">Bicleaner</div>
+                            </div>
+                        </a>
+                        <a class="ingredient" href="https://github.com/bitextor/biroamer" target="_blank">
+                            <div class="ingredient-icon">
+                                <img alt="" src="{{ url_for('static', filename='img/biroamer.svg') }}" />
+                            </div>
+                            <div class="ingredient-info">
+                                Anonymised with
+                                <div class="h5">Biroamer</div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="d-none d-sm-flex align-items-center col-12 col-sm pot text-center mt-5 mt-sm-0 d-flex align-items-center justify-content-center">
+                        <img alt="Dressmaker" src="{{ url_for('static', filename='img/dressmaker.svg') }}" class="img-fluid w-75" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-sm-6 d-flex align-items-center">
+                <div class="row ms-sm-4 mt-3 mt-sm-0">
+                    <div class="col-12 col-sm-6 mb-4">
+                        <div class="d-flex align-items-center bg-light rounded-3 p-3 h-100">
+                            <i class="bi bi-globe display-3"></i>
+
+                            <div class="ms-3">
+                                <div class="h3 mb-0">220k</div>
+                                <div class="h5">crawled websites</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 mb-4">
+                        <div class="d-flex align-items-center bg-light rounded-3 p-3 h-100">
+                            <i class="bi bi-file-text-fill display-3"></i>
+
+                            <div class="ms-3">
+                                <div class="h3 mb-0">300M</div>
+                                <div class="h5">collected sentences</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 mb-4">
+                        <div class="d-flex align-items-center bg-light rounded-3 p-3 h-100">
+                            <i class="bi bi-layout-wtf display-3"></i>
+
+                            <div class="ms-3">
+                                <div class="h3 mb-0">850M</div>
+                                <div class="h5">extracted tokens</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-5">
+            <div class="col-12 mb-4">
+                <div class="h3">
+                    Partners
+                </div>
+            </div>
+
+            <div class="col-12 col-sm-3 text-center mb-5 mb-sm-0">
+                <a href="https://prompsit.com" target="_blank">
+                    <img alt="Prompsit" src="{{ url_for('static', filename='img/prompsit.svg') }}" class="img-fluid" />
+                </a>
+            </div>
+            <div class="col-12 col-sm-3 text-center mb-5 mb-sm-0">
+                <a href="https://www.ed.ac.uk" target="_blank">
+                    <img alt="UEDIN" src="{{ url_for('static', filename='img/uoe.png') }}" class="img-fluid" />
+                </a>
+            </div>
+            <div class="col-12 col-sm-3 text-center mb-5 mb-sm-0">
+                <a href="https://www.ua.es" target="_blank">
+                    <img alt="UA" src="{{ url_for('static', filename='img/ua.png') }}" class="img-fluid" />
+                </a>
+            </div>
+            <div class="col-12 col-sm-3 text-center mb-5 mb-sm-0">
+                <a href="https://omniscien.com/" target="_blank">
+                    <img alt="Omniscien" src="{{ url_for('static', filename='img/omniscien.webp') }}" class="img-fluid" />
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-light mt-5 pb-3">
+        <div class="container">
+            <div class="row mt-3">
+                <div class="col-12 col-sm-3">
+                    <div class="prompsit-gradient"></div>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-12 col-sm-6">
+                    <img alt="Paracarwl" src="{{ url_for('static', filename='img/paracrawl.png') }}" class="img-fluid me-3" />
+                    <img alt="EU logo" src="{{ url_for('static', filename='img/eu.png') }}" class="img-fluid" />
+                </div>
+
+            </div>
+            <div class="row mt-4">
+                <div class="col-12 col-sm-6">
+                    <small class="text-black-50">
+                        Any comunication or publication related to the action, made by the beneficiaries jointly or individually in any form and using any means, shall indicate that it reflects only the author's view and that the Innovation and Networks Executive Agency of the European Union is not responsible for any use that may be made of the information it contains.
+                    </small>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

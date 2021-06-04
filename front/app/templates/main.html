@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <ul class="nav nav-tabs my-3">
+            <li class="nav-item">
+                <a class="nav-link text-primary {{ 'active' if active_page == 'search' }} }}"
+                    {% if active_page == 'search' %} aria-current="page" {% endif %}
+                    href="{{ url_for('search.search_view') }}">
+                    <i class="bi bi-search me-2"></i>
+                    Explore corpora
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-primary {{ 'active' if active_page == 'query' }} }}"
+                    {% if active_page == 'query' %} aria-current="page" {% endif %}
+                    href="{{ url_for('query.query_view') }}">
+                    <i class="bi bi-file-earmark-plus-fill"></i>
+                    Create corpora
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-primary {{ 'active' if active_page == 'dashboard' }} }}"
+                    {% if active_page == 'dashboard' %} aria-current="page" {% endif %}
+                    href="{{ url_for('dashboard.dashboard_view') }}">
+                    <i class="bi bi-cloud-arrow-down-fill me-2"></i>
+                    Get corpora
+                </a>
+            </li>
+            {% if is_admin() %}
+                <li class="nav-item">
+                    <a class="nav-link text-primary {{ 'active' if active_page == 'admin' }} }}"
+                        {% if active_page == 'dashboard' %} aria-current="page" {% endif %}
+                        href="{{ url_for('admin.admin_view') }}">
+                        <i class="bi bi-toggles2"></i>
+                        Admin panel
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+
+        <div class="pe-2 pb-3">
+        {% block main_content %}
+        {% endblock %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

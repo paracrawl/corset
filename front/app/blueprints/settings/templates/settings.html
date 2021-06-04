@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block resources %}
+<script defer src="{{ url_for('static', filename='js/settings' + infix + '.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="row mt-3">
+    <div class="col-12 col-sm-8">
+        <a href="{{ url_for('search.search_view') }}" class="text-decoration-none">
+            <i class="bi bi-arrow-left"></i>
+            Back
+        </a>
+        <h1 class="h3 mt-3">Your profile</h1>
+
+        <form class="mt-4" method="POST">
+            <div class="row">
+                <div class="col-12 col-sm-2">
+                    <img alt="User profile" src="{{ current_user.avatar }}" class="img-fluid rounded-circle"
+                         title="That's you!" />
+                </div>
+                <div class="col-12 col-sm-10 mt-2 mt-sm-0">
+                    <div class="mb-3">
+                        <label for="nameText" class="form-label" id="nameTextLabel">Name</label>
+                        <input type="text" class="form-control" id="nameText" name="nameText"
+                               aria-describedby="nameTextLabel"
+                               value="{{ current_user.name }}"
+                        />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="emailText" class="form-label" id="emailTextLabel">Email</label>
+                        <input type="text" class="form-control" id="emailText" name="emailText" readonly
+                               aria-describedby="emailTextLabel"
+                               value="{{ current_user.email }}"
+                        />
+                    </div>
+
+                    <div class="pt-2 mb-3 text-end">
+                        <button type="reset" class="btn btn-secondary">Reset</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </div>
+            </div>
+
+            <h1 class="h3 mt-5">History management</h1>
+            <div class="mb-3">
+                <div class="table-responsive">
+                    <table class="table table-striped" id="history-table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Corpus</th>
+                                <th scope="col">Languages</th>
+                                <th scope="col">Search language</th>
+                                <th scope="col">Search term</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if len(history) == 0 %}
+                                <tr>
+                                    <td colspan="5" class="text-center">
+                                        Nothing in history
+                                    </td>
+                                </tr>
+                            {% endif %}
+
+                            {% for entry in history %}
+                            <tr>
+                                <td scope="row">{{ entry.base_corpus.name }}</td>
+                                <td>{{ entry.base_corpus.source_lang.name }} - {{ entry.base_corpus.target_lang.name }}</td>
+                                <td>{{ entry.search_lang.name }}</td>
+                                <td>{{ entry.search_term }}</td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <a class="me-2"
+                                            href="{{ url_for('search.search_view', corpus_collection=entry.base_corpus.solr_collection, lang=entry.search_lang.code, query=entry.search_term) }}">
+                                            <i class="bi bi-search"></i>
+                                        </a>
+                                        <a href="{{ url_for('search.history_remove', id=entry.search_id) }}" class="text-danger">
+                                            <i class="bi bi-x-circle"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="mt-3 text-end">
+                    <a href="{{ url_for('search.history_remove', id='all') }}" class="btn btn-outline-danger btn-sm">
+                        Delete search history
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

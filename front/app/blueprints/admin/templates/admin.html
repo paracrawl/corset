@@ -1,0 +1,178 @@
+{% extends "main.html" %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/job-table' + infix + '.css') }}">
+{% endblock %}
+
+{% block resources %}
+<script src="{{ url_for('static', filename='js/admin' + infix + '.js') }}"></script>
+{% endblock %}
+
+{% block main_content %}
+<div class="h5">Admin dashboard</div>
+
+<div class="row">
+    <div class="col-12 col-md-9">
+        <div class="row" id="system">
+            <div class="col-12 col-sm-4">
+                <div class="h-100 bg-light p-3 d-flex align-items-center">
+                    <div class="display-2">
+                        <i class="bi bi-cpu-fill"></i>
+                    </div>
+
+                    <div class="ms-3">
+                        <div class="h6">CPU</div>
+                        <div class="h4">{{ cpu }}%</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-sm-4">
+                <div class="h-100 bg-light p-3 d-flex align-items-center">
+                    <div class="display-2">
+                        <i class="bi bi-bookshelf"></i>
+                    </div>
+
+                    <div class="ms-3">
+                        <div class="h6">Memory</div>
+                        <div class="h4">{{ ram.percent }}%</div>
+
+                        {{ ram.used }}GB out of {{ ram.total }}GB
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-sm-4">
+                <div class="h-100 bg-light p-3 d-flex align-items-center">
+                    <div class="display-2">
+                        <i class="bi bi-hdd-fill"></i>
+                    </div>
+
+                    <div class="ms-3">
+                        <div class="h6">Disk usage</div>
+                        <div class="h4">{{ disk_usage.percent }}%</div>
+
+                        {{ disk_usage.used }}GB out of {{ disk_usage.total }}GB
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-5" id="jobs">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center">
+                    <span class="h5">Jobs</span>
+
+                    <button id="jobs-table-reload" class="btn btn-sm btn-outline-secondary"><i class="bi bi-arrow-repeat"></i> Reload</button>
+                </div>
+            </div>
+            <div class="col-12">
+                {% with queue_table_admin = True, table_id = "queue-table" %}
+                    {% include "queue-table.html" %}
+                {% endwith %}
+            </div>
+        </div>
+
+        <div class="row mt-5" id="base-corpora">
+            <div class="col-12">
+                <div class="h5">
+                    Add Base Corpus
+                </div>
+
+                <div class="alert alert-warning" role="alert">
+                    <p class="fw-bold"><i class="bi bi-exclamation-triangle-fill me-1"></i> Heads up!</p>
+
+                    Solr cores and collections need to be managed <b>manually</b>.
+                    <br>
+                    This form only adds an existing Solr collection to Data Portal.
+                </div>
+
+                <form action="{{ url_for('admin.admin_add_base_corpora') }}" id="upload-base-corpus"
+                      method="post" class="row">
+                    <div class="col-6">
+                        <div class="form-floating mb-3">
+                            <input required type="text" class="form-control" name="corpusName" id="corpusName"
+                                   placeholder="Corpus name" />
+                            <label for="corpusName">Corpus name</label>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" name="descriptionText" id="descriptionText"
+                                   placeholder="Description" />
+                            <label for="descriptionText">Description</label>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-floating mb-3">
+                            <select class="form-select" id="sourceLang" name="sourceLang" aria-label="Source language">
+                                {% for lang in langs %}
+                                    <option value="{{ lang.lang_id }}">{{ lang.code }} - {{ lang.name }}</option>
+                                {% endfor %}
+                            </select>
+                            <label for="sourceLang">Source language</label>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-floating mb-3">
+                            <select class="form-select" id="targetLang" name="targetLang" aria-label="Target language">
+                                {% for lang in langs[1:] %}
+                                    <option value="{{ lang.lang_id }}">{{ lang.code }} - {{ lang.name }}</option>
+                                {% endfor %}
+                                <option value="{{ langs[0].lang_id }}">{{ langs[0].code }} - {{ langs[0].name }}</option>
+                            </select>
+                            <label for="targetLang">Target language</label>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-floating mb-3">
+                            <input required type="text" class="form-control" name="solrCollection" id="solrCollection"
+                                   placeholder="Solr collection" />
+                            <label for="solrCollection">Solr collection</label>
+                        </div>
+                    </div>
+                    <div class="col-12 text-end">
+                        <span id="upload-success" class="d-none text-success me-3">Corpus added successfully</span>
+                        <span id="upload-error" class="d-none text-danger me-3">Something went wrong</span>
+                        <input id="resetBtn" type="reset" class="btn btn-secondary" value="Reset" />
+                        <input type="submit" class="btn btn-primary" value="Add" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-3 d-none d-md-block text-muted">
+        <div style="position: sticky; top: 2rem;">
+            <div class="h6">Admin options</div>
+            <hr />
+            <ul class="list-unstyled">
+                <li><a href="#system" class="text-reset">System status</a></li>
+                <li><a href="#jobs" class="text-reset">Jobs</a></li>
+                <li><a href="#base-corpora" class="text-reset">Add Base Corpus</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+{% include "queue-table-templates.html" %}
+
+<template id="preview-link-template">
+    <div class="dropdown" id="shareMenu">
+        <button class="btn py-0 px-2" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-three-dots-vertical"></i>
+        </button>
+        <ul class="dropdown-menu" aria-label="Actions">
+            <li class="preview-action">
+                <a href="#" class="preview-link dropdown-item" title="Preview">
+                    <i class="bi bi-eye-fill me-2"></i> Preview
+                </a>
+            </li>
+            <li class="remove-action">
+                <a href="#" class="remove-link dropdown-item text-danger" title="Remove">
+                    <i class="bi bi-trash-fill me-2"></i> Remove
+                </a>
+            </li>
+        </ul>
+    </div>
+</template>
+{% endblock %}

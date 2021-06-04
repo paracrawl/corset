@@ -1,0 +1,136 @@
+{% extends "main.html" %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/query' + infix + '.css') }}" />
+<script defer src="{{ url_for('static', filename='js/query' + infix + '.js') }}"></script>
+{% endblock %}
+
+{% block main_content %}
+<form action="/query/launch" method="post" id="queryForm">
+    <input type="hidden" name="size" id="size" value="small" />
+    <input type="hidden" name="downloadFormat" id="downloadFormat" value="tsv" />
+
+    <label for="sampleFile" class="h5">Provide as a sample:</label>
+    <p>
+        <i class="bi bi-justify-left me-2"></i> a monolingual or bilingual corpus <br />
+        <i class="bi bi-file-earmark-text-fill me-2"></i> formatted as a one-line-per-sentence TXT, TSV or TMX file <br />
+        <i class="bi bi-exclamation-circle-fill me-2"></i> with a max. of 10k sentences
+    </p>
+
+    <div class="mt-2">
+        <input type="file" required class="form-control form-control-lg" id="sampleFile" name="sampleFile" />
+    </div>
+
+    <div class="mt-5">
+        <div class="h5">Set up your custom corset</div>
+
+        <div class="row mt-3">
+            <div class="col-12 col-sm-12 col-md-4">
+                <label class="form-label" for="corsetNameText" id="corsetNameTextLabel">Name</label>
+                <input required type="text" class="form-control" name="corsetNameText" id="corsetNameText" aria-describedby="corsetNameTextLabel"
+                    placeholder="{{ random_name }}"/>
+            </div>
+
+            <div class="col-12 col-sm-12 col-md-4 mt-3 mt-sm-0">
+                <label class="form-label" for="corsetTopicSelect" id="corsetTopicSelectLabel">Topic</label>
+                <select required class="form-select" name="corsetTopicSelect" id="corsetTopicSelect" aria-describedby="corsetTopicSelectLabel">
+                    {% for i, topic in enumerate(topics) %}
+                        <option value="{{ topic.tag_id }}">{{ topic.tag }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="col-12 col-md-4 mt-3 mt-sm-0">
+                <label class="form-label" for="sizeRadio" id="sizeRadioLabel">Size</label>
+
+                <div class="input-group" aria-describedby="sizeRadioLabel">
+                    <input type="radio" checked class="btn-check" name="sizeRadio" id="sizeRadioS" autocomplete="off" />
+                    <label class="btn btn-outline-primary rounded-start flex-grow-1 flex-shrink-0"
+                           for="sizeRadioS" id="label_sizeS" data-size="small">Small</label>
+
+                    <input type="radio" class="btn-check" name="sizeRadio" id="sizeRadioM" autocomplete="off" />
+                    <label class="btn btn-outline-primary flex-grow-1 flex-shrink-0"
+                           for="sizeRadioM" id="label_sizeM" data-size="medium">Medium</label>
+
+                    <input type="radio" class="btn-check" name="sizeRadio" id="sizeRadioL" autocomplete="off" />
+                    <label class="btn btn-outline-primary flex-grow-1 flex-shrink-0"
+                           for="sizeRadioL" id="label_sizeL" data-size="large">Large</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-12 col-md-3">
+                <label class="form-label" for="corsetSourceLang" id="corsetSourceLangLabel">Source lang</label>
+                <select disabled class="form-select" name="corsetSourceLang" id="corsetSourceLang" aria-describedby="corsetSourceLangLabel">
+                    <option value="{{ source_lang.lang_id }}">English</option>
+                </select>
+            </div>
+
+            <div class="col-12 col-md-3 mt-3 mt-sm-0">
+                <label class="form-label" for="corsetTargetLang" id="corsetTargetLangLabel">Target lang</label>
+                <select class="form-select" name="corsetTargetLang" id="corsetTargetLang" aria-describedby="corsetTargetLangLabel">
+                    {% for lang in langs %}
+                        {% if lang.code != source_lang.code %}
+                            <option value="{{ lang.lang_id }}">{{ lang.name }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="col-12 col-sm-6 col-md-4 mt-3 mt-sm-0">
+                <label class="form-label" for="corpus_collection" id="corpus_collection_label">Corpus</label>
+                <select required class="form-select" name="corpus_collection"
+                        id="corpus_collection" aria-describedby="corpus_collection_label">
+                </select>
+            </div>
+
+            <div class="col-12 col-sm-6 col-md-2 mt-3 mt-sm-0">
+                <label class="form-label" for="downloadFormat" id="downloadFormatLabel">Download as</label>
+
+                <div class="input-group" aria-describedby="downloadFormatLabel">
+                    <input type="radio" checked class="btn-check" name="downloadFormatRadio" id="downloadFormatTSV" autocomplete="off" />
+                    <label class="btn btn-outline-primary rounded-start flex-grow-1 flex-shrink-0" id="label_downloadFormatTSV"
+                           for="downloadFormatTSV" data-format="tsv">TSV</label>
+
+                    <input type="radio" class="btn-check" name="downloadFormatRadio" id="downloadFormatTMX" autocomplete="off" />
+                    <label class="btn btn-outline-primary flex-grow-1 flex-shrink-0" id="label_downloadFormatTMX"
+                           for="downloadFormatTMX" data-format="tmx">TMX</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-12 col-sm-12 mt-5">
+                <div class="decorated-btn">
+                    <div class="btn-container">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-arrow-up-circle"></i>
+                            Upload and generate
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-sm-6 offset-sm-3 mt-5">
+                <div id="upload-successful" class="upload-result-message d-none">
+                    <div class="d-flex align-items-start">
+                        <div class="display-5 text-primary">
+                            <i class="bi bi-check-circle-fill"></i>
+                        </div>
+                        <div class="ms-3">
+                            <div class="display-5 text-primary">Roger that!</div>
+                            <div class="h5 mt-3">
+                                We are working on your request and it will be available soon.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                 <div id="upload-error" class="upload-result-message text-danger text-center d-none">
+                    <strong><i class="bi bi-exclamation-circle-fill"></i> Something went wrong!</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+{% endblock %}
