@@ -131,7 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
         for (const entry of data) {
             const template = document.importNode(document.getElementById('highlight-template').content,
                 true);
-            template.querySelector('.highlight-name').textContent = entry.name;
+            template.querySelector('.highlight-name').innerHTML = entry.name;
             template.querySelector('.highlight-name').setAttribute('title', entry.custom_corpus.description);
             template.querySelector('.highlight-link').setAttribute('href',
                 `/search/corset/${entry.request_id}`);
