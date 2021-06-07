@@ -1,6 +1,8 @@
 import requests
 from flask import render_template, url_for, redirect, request, Response
 from flask_login import current_user
+from werkzeug.utils import unescape
+
 from models.user import User
 
 from . import app, login_manager
@@ -15,6 +17,7 @@ app.jinja_env.globals.update(**{
     "infix": app.config['INFIX'],
     "enumerate": enumerate,
     "is_admin": user_utils.is_admin,
+    "unescape": unescape
 })
 
 
