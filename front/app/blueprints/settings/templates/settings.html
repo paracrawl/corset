@@ -24,7 +24,7 @@
                         <label for="nameText" class="form-label" id="nameTextLabel">Name</label>
                         <input type="text" class="form-control" id="nameText" name="nameText"
                                aria-describedby="nameTextLabel"
-                               value="{{ current_user.name }}"
+                               value="{{ unescape(current_user.name) }}"
                         />
                     </div>
 

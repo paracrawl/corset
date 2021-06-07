@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     template.querySelector('.badge-status-pending').classList.remove('d-none');
                 }
 
-                template.querySelector('.corset-name').textContent = entry.name;
+                template.querySelector('.corset-name').innerHTML = entry.name;
                 template.querySelector('.corset-base-corpus').textContent = entry.base_corpus.name;
 
                 template.querySelector('.queue-entry').setAttribute('href',

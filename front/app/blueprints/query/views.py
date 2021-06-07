@@ -46,7 +46,9 @@ def query_download(query_request_id):
 
         if query_request and query_request.status.status == 'SUCCESS' \
                 and query_request.custom_corpus and query_request.custom_corpus.location \
-                and query_request.owner.user_id == current_user.id or query_request.custom_corpus.is_private is False:
+                and (current_user.is_admin
+                     or query_request.owner.user_id == current_user.id
+                     or query_request.custom_corpus.is_private is False):
             custom_corpus_bo = CustomCorpusBO()
             custom_corpus_bo.update_custom_corpus_downloads(query_request.custom_corpus.corpus_id)
             return send_file(query_request.custom_corpus.location, as_attachment=True)

@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, redirect, request, url_for, escape
 from flask_login import current_user, login_required
+from werkzeug.utils import unescape
 
 from back.bo.base_corpus_bo import BaseCorpusBO
 from back.bo.custom_corpus_bo import CustomCorpusBO
@@ -28,6 +29,9 @@ def search_view(corpus_collection=None, lang=None, query=''):
     source_lang = None
     target_lang = None
     field = 'trg'
+
+    if query:
+        query = unescape(query)
 
     if corpus_collection:
         base_corpus = base_corpus_bo.get_base_corpus_by_collection(corpus_collection)
@@ -111,13 +115,12 @@ def search_corset_post():
 @search_blueprint.route('/history/remove/<id>')
 @utils.condec(login_required, user_login_enabled())
 def history_remove(id):
-    id = int(id)
-
     search_request_bo = SearchRequestBO()
 
     if id == 'all':
         search_request_bo.clear_user_search_history(current_user.id)
     else:
+        id = int(id)
         user_search_requests = search_request_bo.get_user_search_requests(user_id=current_user.id)
         user_search_requests_ids = [search_request.search_id for search_request in user_search_requests]
 
