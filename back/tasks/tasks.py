@@ -225,7 +225,7 @@ def defy_god(miracle_output, out_format):
 
 def process_upload(tmp_path, filename):
     path = os.path.join(APIConfig.UPLOAD_FOLDER, filename)
-    shutil.copy(tmp_path, path)
+    shutil.move(tmp_path, path)
 
     # Convert whatever format this has to UTF-8
     convert_process = subprocess.Popen(
@@ -273,7 +273,7 @@ def process_upload(tmp_path, filename):
         )
         limit_process.wait()
 
-        shutil.copy(limit_path, output_path)
+        shutil.move(limit_path, output_path)
 
         with open(output_path, 'r') as output_file:
             first_line = output_file.readline()
