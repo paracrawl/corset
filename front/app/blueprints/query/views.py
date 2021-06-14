@@ -32,7 +32,7 @@ def query_view():
         else:
             del target_langs[i]
 
-    corpus_collection = base_corpus[0].solr_collection
+    corpus_collection = base_corpus.solr_collection
 
     tags_bo = TagsBO()
     topics = tags_bo.get_tags()
