@@ -29,7 +29,7 @@ def admin_view():
                   "total": round(hdd.total / factor,1)}  # GB
 
     langs_bo = LangsBO()
-    langs = langs_bo.get_langs()
+    langs = langs_bo.get_langs(include_inactive=True)
 
     return render_template('admin.html', title='Admin', active_page='admin',
                            ram=ram, disk_usage=disk_usage, cpu=cpu, langs=langs)
