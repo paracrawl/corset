@@ -22,14 +22,14 @@ def query_view():
     langs_bo = LangsBO()
     langs = langs_bo.get_langs()
     target_langs = [lang for lang in langs if lang.code != 'en']
-    source_lang = langs_bo.get_lang_by_code('en')
 
     source_langs_codes = app.config['SOURCE_LANGS']
     source_langs = [lang for lang in langs if lang.code in source_langs_codes]
+    source_lang = source_langs[0]
 
     base_corpus_bo = BaseCorpusBO()
 
-    base_corpus = base_corpus_bo.get_base_corpora_by_pair('en', target_langs[0].code)[0]
+    base_corpus = base_corpus_bo.get_base_corpora_by_pair(source_lang.code, target_langs[0].code)[0]
     corpus_collection = base_corpus.solr_collection
 
     tags_bo = TagsBO()
