@@ -25,12 +25,24 @@ def query_view():
 
     base_corpus_bo = BaseCorpusBO()
     base_corpus = None
-    for i, target_lang in enumerate([lang for lang in target_langs]):
-        base_corpora = base_corpus_bo.get_base_corpora_by_pair('en', target_lang.code)
+
+    deleted = []
+    for i, target_language in enumerate([lang for lang in target_langs]):
+        base_corpora = base_corpus_bo.get_base_corpora_by_pair('en', target_language.code)
         if base_corpora:
             base_corpus = base_corpora[0]
         else:
-            del target_langs[i]
+            deleted.append(i)
+
+    for deleted_index in deleted:
+        lang_code = target_langs[deleted_index].code
+        lang_index = None
+        for i, lang in enumerate(langs):
+            if lang.code == lang_code:
+                lang_index = i
+
+        del target_langs[deleted_index]
+        del langs[lang_index]
 
     corpus_collection = base_corpus.solr_collection
 
