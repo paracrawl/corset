@@ -19,7 +19,7 @@ class Config:
 
     INFIX = '.min' if os.environ.get('DEBUG') is None else ''
 
-    SOURCE_LANGS = os.environ.get('SOURCE_LANGS').split('|') if os.environ.get('SOURCE_LANGS') else ['en', 'es']
+    SOURCE_LANGS = os.environ.get('SOURCE_LANGS').split('|') if os.environ.get('SOURCE_LANGS') else ['en']
 
     API_URL = os.environ.get('API_URL')
 
