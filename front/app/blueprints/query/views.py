@@ -31,6 +31,7 @@ def query_view():
         base_corpora = base_corpus_bo.get_base_corpora_by_pair('en', target_language.code)
         if base_corpora:
             base_corpus = base_corpora[0]
+            break
         else:
             deleted.append(i)
 
