@@ -22,6 +22,8 @@ def search_view(corpus_collection=None, lang=None, query=''):
     langs_bo = LangsBO()
     langs = langs_bo.get_langs()
     target_langs = [lang for lang in langs if lang.code != 'en']
+    source_langs_codes = app.config['SOURCE_LANGS']
+    source_langs = [lang for lang in langs if lang.code in source_langs_codes]
 
     base_corpus_bo = BaseCorpusBO()
 
@@ -62,7 +64,7 @@ def search_view(corpus_collection=None, lang=None, query=''):
         source_lang = langs_bo.get_lang_by_code('en')
 
     return render_template('search.html', title='Search', active_page='search', langs=langs,
-                           query=query, field=field, source_lang=source_lang,
+                           query=query, field=field, source_lang=source_lang, source_langs=source_langs,
                            target_lang=target_lang, corpus_collection=corpus_collection, base_corpus=base_corpus)
 
 

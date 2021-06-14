@@ -16,6 +16,7 @@ services:
       - API_URL=http://dp-back:5000
       - DEBUG=0
       - SECRET_KEY=development key
+      - SOURCE_LANGS=
     volumes:
       - ./front/data/:/opt/dp/front/data
       - ./back/data:/opt/dp/back/data:rw
