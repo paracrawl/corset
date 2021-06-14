@@ -44,7 +44,7 @@ SQLAlchemy-Utils==0.36.8
 stringcase==1.2.0
 typing-extensions==3.7.4.3
 typing-inspect==0.6.0
-urllib3==1.26.4
+urllib3==1.26.5
 URLObject==2.4.3
 vine==5.0.0
 wcwidth==0.2.5
