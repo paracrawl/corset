@@ -24,7 +24,14 @@ def query_view():
     source_lang = langs_bo.get_lang_by_code('en')
 
     base_corpus_bo = BaseCorpusBO()
-    base_corpus = base_corpus_bo.get_base_corpora_by_pair('en', target_langs[0].code)
+    base_corpus = None
+    for i, target_lang in enumerate([lang for lang in target_langs]):
+        base_corpora = base_corpus_bo.get_base_corpora_by_pair('en', target_lang.code)
+        if base_corpora:
+            base_corpus = base_corpora[0]
+        else:
+            del target_langs[i]
+
     corpus_collection = base_corpus[0].solr_collection
 
     tags_bo = TagsBO()

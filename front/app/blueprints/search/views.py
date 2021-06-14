@@ -39,7 +39,13 @@ def search_view(corpus_collection=None, lang=None, query=''):
         target_lang = base_corpus.target_lang
         field = 'trg' if target_lang.code == lang else 'src'
     else:
-        base_corpus = base_corpus_bo.get_base_corpora_by_pair('en', target_langs[0].code)[0]
+        for i, target_lang in enumerate([lang for lang in target_langs]):
+            base_corpora = base_corpus_bo.get_base_corpora_by_pair('en', target_lang.code)
+            if base_corpora:
+                base_corpus = base_corpora[0]
+            else:
+                del target_langs[i]
+
         corpus_collection = base_corpus.solr_collection
         source_lang = langs_bo.get_lang_by_code('en')
 
