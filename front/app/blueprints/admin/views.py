@@ -31,8 +31,12 @@ def admin_view():
     langs_bo = LangsBO()
     langs = langs_bo.get_langs(include_inactive=True)
 
+    source_lang_codes = app.config['SOURCE_LANGS']
+    source_langs = [lang for lang in langs if lang.code in source_lang_codes]
+
     return render_template('admin.html', title='Admin', active_page='admin',
-                           ram=ram, disk_usage=disk_usage, cpu=cpu, langs=langs)
+                           ram=ram, disk_usage=disk_usage, cpu=cpu, langs=langs,
+                           source_langs=source_langs)
 
 
 @admin_blueprint.route('/add/base', methods=["POST"])
