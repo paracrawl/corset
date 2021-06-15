@@ -19,12 +19,7 @@ class Config:
 
     INFIX = '.min' if os.environ.get('DEBUG') is None else ''
 
-    TARGET_LANGS = [
-        {'code': 'es', 'name': 'Spanish'},
-        {'code': 'de', 'name': 'German'}
-    ]
-
-    TOPICS = ['General', 'Administration', 'Legal', 'Others']
+    SOURCE_LANGS = os.environ.get('SOURCE_LANGS').split('|') if os.environ.get('SOURCE_LANGS') else ['en']
 
     API_URL = os.environ.get('API_URL')
 

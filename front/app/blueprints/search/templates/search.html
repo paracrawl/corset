@@ -11,7 +11,6 @@
     <div class="col-12 col-sm-10">
         <form id="searchForm" action="/search/" method="post">
             <input type="hidden" name="corpus_collection" id="corpus_collection" value="{{ corpus_collection }}" />
-            <input type="hidden" name="source_lang" id="source_lang" value="{{ source_lang.lang_id }}" />
             <input type="hidden" name="field" id="field" value="{{ field }}" />
 
             {% if base_corpus %}
@@ -25,8 +24,14 @@
                     <input required type="text" class="form-control" id="queryText" name="queryText"
                            aria-describedby="queryTextLabel" placeholder="Type some keywords..."
                            autocomplete="off" value="{{ query }}" autofocus />
-                    <span class="input-group-text d-none d-sm-block" aria-label="Source language"
-                          title="Source language">{{ source_lang.name }}</span>
+                    <select class="form-select" id="source_lang" name="source_lang" style="flex: 0 1 125px;">
+                        {% for lang in source_langs %}
+                            <option value="{{ lang.lang_id }}" data-code="{{ lang.code }}"
+                                    {% if source_lang.code == lang.code %} selected {% endif %}>
+                                {{ lang.name }}
+                            </option>
+                        {% endfor %}
+                    </select>
                     <select class="form-select" id="target_lang" name="target_lang" style="flex: 0 1 125px;">
                         {% for lang in langs %}
                             {% if lang.code != source_lang.code %}

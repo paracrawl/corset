@@ -106,7 +106,7 @@
                     <div class="col-6">
                         <div class="form-floating mb-3">
                             <select class="form-select" id="sourceLang" name="sourceLang" aria-label="Source language">
-                                {% for lang in langs %}
+                                {% for lang in source_langs %}
                                     <option value="{{ lang.lang_id }}">{{ lang.code }} - {{ lang.name }}</option>
                                 {% endfor %}
                             </select>
