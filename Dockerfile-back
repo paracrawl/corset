@@ -1,4 +1,4 @@
-FROM python:latest
+FROM python:3.7-slim-buster
 
 RUN echo "Europe/Madrid" > /etc/timezone
 ENV LC_ALL=C.UTF-8
