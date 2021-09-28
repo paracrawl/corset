@@ -46,7 +46,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             document.getElementById('baseCorpusSelect').dispatchEvent(new Event('change'))
         }).error((code, data) => {
-            console.log(code, data);
         }).after(() => {
             document.getElementById('baseCorpusSelect').removeAttribute('disabled');
         }).launch();
@@ -111,11 +110,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     throw "No results";
                 }
             } catch (e) {
-                console.log(e);
                 document.getElementById('error-row').classList.remove('d-none');
             }
         }).error((error_code, error_data) => {
-            console.log(error_code, error_data);
             document.getElementById('error-row').classList.remove('d-none');
         }).launch();
     };
@@ -136,7 +133,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 showSentences(preview_sentences, 20, 10, 1);
             }
         }).error((code, data) => {
-            console.log(code, data);
         }).launch();
     };
 
