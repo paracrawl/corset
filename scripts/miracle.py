@@ -381,6 +381,10 @@ def main(args):
     #Get ngrams sorted by score (score = ngram_order * frequency)
     all_ngrams_sorted = ngrammer(args.input, max_order, tokenizer, detokenizer, stop_words, col=1)
     
+    if len(all_ngrams_sorted) == 0:
+        logging.error("No ngrams found.")
+        sys.exit(1)
+    
     if args.isparallel:
         args.input.seek(0)
         all_ngrams_sorted2 = ngrammer(args.input, max_order, tokenizer2, detokenizer2, stop_words2, col=2)
@@ -392,6 +396,7 @@ def main(args):
     if args.isparallel:
         scores2 = list(all_ngrams_sorted2.keys())
         scores2.sort(reverse=True)
+
             
     #display size of groups    
     for score in scores:
@@ -408,6 +413,8 @@ def main(args):
     #Bottom 25% scores: emergency group (not queried until all others fully explored)
  
     twentyfivepercent = len(scores) // 4
+    if twentyfivepercent==0:
+        twentyfivepercent=1
     first_group_scores = scores[0:twentyfivepercent]
     second_group_scores = scores[twentyfivepercent:twentyfivepercent*2]
     third_group_scores = scores[twentyfivepercent*2:twentyfivepercent*3]
