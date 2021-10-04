@@ -221,7 +221,11 @@ def ngrammer(input, max_order, tokenizer, detokenizer, stop_words, col):
     
     #Read input file extracting n-grams(max_order..1) for each sentence
     for line in input:
+        #logging.error(line)
         parts = line.split("\t")
+        if len(parts) < col:
+            logging.error("Skipping line: {}".format(line))
+            continue
         sent = parts[col-1].strip().strip("\n") 
         toks = tokenizer.tokenize(sent, escape=False) #Mosestokenizer
         #toks = word_tokenize(sent) #nltk tokenizer
