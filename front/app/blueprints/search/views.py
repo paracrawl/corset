@@ -42,7 +42,15 @@ def search_view(corpus_collection=None, lang=None, query=''):
         field = 'trg' if target_lang.code == lang else 'src'
     else:
         source_lang = source_langs[0]
-        base_corpus = base_corpus_bo.get_base_corpora_by_pair(source_lang.code, target_langs[0].code)[0]
+
+        for lang in target_langs:
+            base_corpora = base_corpus_bo.get_base_corpora_by_pair(source_lang.code, lang.code)
+
+            if len(base_corpora) > 0:
+                base_corpus = base_corpora[0]
+                target_lang = lang
+                break
+
         corpus_collection = base_corpus.solr_collection
 
     return render_template('search.html', title='Search', active_page='search', langs=langs,

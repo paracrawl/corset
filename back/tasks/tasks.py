@@ -227,6 +227,10 @@ def process_upload(tmp_path, filename):
     path = os.path.join(APIConfig.UPLOAD_FOLDER, filename)
     shutil.move(tmp_path, path)
 
+    # Remove BOM (if present)
+    no_bom = subprocess.Popen("sed -i '1s/^\\xEF\\xBB\\xBF//' {path}".format(path=path), shell=True)
+    no_bom.wait()
+
     # Convert whatever format this has to UTF-8
     convert_process = subprocess.Popen(
         "cat {path} | iconv -f $(cat {path} | head -n 1000 "
