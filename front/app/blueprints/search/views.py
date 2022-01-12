@@ -30,7 +30,7 @@ def search_view(corpus_collection=None, lang=None, query=''):
     base_corpus = None
     source_lang = None
     target_lang = None
-    field = 'trg'
+    field = 'src'
 
     if query:
         query = unescape(query)
