@@ -16,7 +16,7 @@ class LangsBO:
     session = Session()
 
 
-    def get_langs(self, include_inactive=False, limit=None, offset=0, sort_field="id", sort_dir="asc"):
+    def get_langs(self, include_inactive=False, limit=None, offset=0, sort_field="name", sort_dir="asc"):
         '''
         Retrieves the list of all available active languages (if include_inactive, include those that are inactive as well)
         '''

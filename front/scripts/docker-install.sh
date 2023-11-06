@@ -5,7 +5,7 @@ pip3 install virtualenv
 
 cd $ROOT/front
 
-npm install postcss-cli autoprefixer sass postcss minify -g
+npm install postcss-cli autoprefixer sass postcss minify@7.2.2 -g
 
 virtualenv -p /usr/bin/python3 venv
 source venv/bin/activate
